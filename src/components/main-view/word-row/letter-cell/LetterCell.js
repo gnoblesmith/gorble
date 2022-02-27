@@ -14,10 +14,10 @@ const LetterCell = (props) => {
     const innerStyle = {
         margin: "5%",
         border: "2px solid grey",
-        height: "100px",
-        lineHeight: "90px",
+        height: "40px",
+        lineHeight: "38px",
         textAlign: "center",
-        fontSize: '56px',
+        fontSize: '30px',
         background 
     };
 

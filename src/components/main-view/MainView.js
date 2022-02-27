@@ -1,28 +1,39 @@
 import WordRow from './word-row/WordRow';
-import { useState } from 'react';
-import { NUM_GUESSES } from './../../reference/constants';
+import Keyboard from '../keyboard/Keyboard';
 
 const MainView = (props) => {
-    const { letterGrid } = props;
-    const [wordsGuessed, setWordsGuessed] = useState(() => new Array(NUM_GUESSES).fill(''));
+    const { letterGrid, onKeyboardClick } = props;
 
-    const style = {
-        width: "60%", 
-        height: "100%",
-        marginLeft: "20%",
-        marginRight: "20%",
+    const mainViewStyle = {
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "nowrap",
+        justifyContent: "space-between"
     };
 
-    return <div>
-        <table style={style}>
-            <tbody>
-                {
-                    letterGrid.map((row, index) => {
-                        return <WordRow key={`word-row-${index}`} row={index+1} letterRow={row} />;
-                    })
-                }
-            </tbody>
-        </table>
+    const tableContainerStyle = {
+        width: "30%",
+        margin: "0 auto",
+    };
+    
+    const tableStyle = {  
+        width: "100%",
+        margin: "0 auto",    
+    };
+
+    return <div style={mainViewStyle}>
+        <div style={tableContainerStyle}>
+            <table style={tableStyle}>
+                <tbody>
+                    {
+                        letterGrid.map((row, index) => {
+                            return <WordRow key={`word-row-${index}`} row={index+1} letterRow={row} />;
+                        })
+                    }
+                </tbody>
+            </table>
+        </div>
+        <Keyboard onClick={onKeyboardClick} />
     </div>
 }
 

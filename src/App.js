@@ -11,12 +11,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const style = {
-    display: "flex",
-    flexFlow: "column",
     background: "black",
     color: "white",
     width: "100%",
-    height: "100%",
+    height: "100vh",
+    userSelect: "none",
   };
 
   const [gameState, setGameState] = useState(() => {
@@ -34,12 +33,6 @@ function App() {
       return next;
     });
   }
-
-  // mock code remove later
-  useEffect(() => {
-    initializeWord();
-  }, []);
-  /////////////////////////
 
   useEffect(() => {
     const savedState = localStorage.getItem(LOCAL_STORAGE_STATE_KEY);
@@ -92,11 +85,10 @@ function App() {
       }
     } else if (key === 'enter') {
       if (col === NUM_LETTERS) {
-        // todo submit guess - win conditions + lose conditions
         let guess = '';
         gameState.letterGrid[row].forEach(cell => guess += cell.value);
-        checkWordValidity(guess).then((response) => {
-          if (response) {
+        checkWordValidity(guess).then((valid) => {
+          if (valid) {
             checkWord(guess).then(response => {
               setGameStateWithSave(prev => {
                 let copy = prev.letterGrid;
@@ -144,14 +136,12 @@ function App() {
             ...copy[row][col],
             value: key.toUpperCase()
           }
-          console.log(1, prev.activeCol);
           return {
             ...prev,
             letterGrid: copy
           };
         });
         setGameStateWithSave((prev) => {
-          console.log(2, prev.activeCol);
           return {
             ...prev,
             activeCol: prev.activeCol+1,
@@ -164,8 +154,7 @@ function App() {
   return <div style={style}>
     <TopBar />
     <ToastContainer />
-    <MainView letterGrid={gameState.letterGrid} />
-    <Keyboard onClick={onKeyboardClick} />
+    <MainView letterGrid={gameState.letterGrid} onKeyboardClick={onKeyboardClick} />
   </div>
 }
 
