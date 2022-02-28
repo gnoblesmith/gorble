@@ -5,27 +5,29 @@ const LetterCell = (props) => {
     const { letter } = props;
 
     const containerStyle = {
-        width: "20%",
+        margin: "2%",
+        marginLeft: "2%",
+        marginRight: "2%",
     };
 
     const background = letter.status === GuessResult.YES ? "darkolivegreen" :
                        letter.status === GuessResult.MAYBE ? "darkgoldenrod" : "black"; 
 
     const innerStyle = {
-        margin: "5%",
         border: "2px solid grey",
         height: "40px",
+        width: "40px",
         lineHeight: "38px",
         textAlign: "center",
         fontSize: '30px',
         background 
     };
 
-    return <td style={containerStyle}>
+    return <div style={containerStyle}>
         <div style={innerStyle}>
             { letter.value }
         </div>
-    </td>
+    </div>
 }
 
 export default LetterCell;

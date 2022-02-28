@@ -14,13 +14,17 @@ const WordRow = (props) => {
         />)
     }
 
-    const style = {};
+    const style = {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+    };
 
-    return <tr style={style}>
+    return <div style={style}>
         {
             columns.map(columns => columns)
         }
-    </tr>
+    </div>
 }
 
 export default WordRow;

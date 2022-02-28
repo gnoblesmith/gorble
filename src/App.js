@@ -1,13 +1,13 @@
 import './App.css';
 import TopBar from './components/top-bar/TopBar';
 import MainView from './components/main-view/MainView';
-import Keyboard from './components/keyboard/Keyboard';
 import { useEffect, useState } from 'react';
-import { initializeWord, checkWordValidity, checkWord } from './api/api';
+import { checkWordValidity, checkWord } from './api/api';
 import { NUM_GUESSES, NUM_LETTERS, LOCAL_STORAGE_STATE_KEY } from './reference/constants';
 import { GuessResult } from './reference/enums';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addWin, addLoss, getMetagameData } from './metagame-state/metagame-state';
 
 function App() {
   const style = {
@@ -26,6 +26,10 @@ function App() {
     }
   });
 
+  const [metagameData, setMetagameData] = useState();
+
+  const [loading, setLoading] = useState(false);
+
   const setGameStateWithSave = (updateFunc) => {
     setGameState((prev) => {
       const next = updateFunc(prev);
@@ -39,18 +43,23 @@ function App() {
     if (savedState) {
       setGameState(JSON.parse(savedState));
     }
+    setMetagameData(getMetagameData());
   }, []);
 
   const onWin = () => {
     toast("nice job!", {
       toastId: 'win-toast'
     });
+    addWin(gameState);
+    setMetagameData(getMetagameData());
   }
 
   const onLose = () => {
     toast("you lose :(", {
       toastId: 'lose-toast'
     });
+    addLoss();
+    setMetagameData(getMetagameData());
   }
 
   const onInvalidWord = () => {
@@ -59,7 +68,13 @@ function App() {
     });
   }
 
+  const alreadyPlayedTodaysGame = () => {
+    return !!metagameData.history[new Date().toDateString()];
+  }
+
   const onKeyboardClick = (key) => {
+    if (alreadyPlayedTodaysGame()) return;
+
     const row = gameState.activeRow;
     const col = gameState.activeCol;
 
@@ -87,6 +102,8 @@ function App() {
       if (col === NUM_LETTERS) {
         let guess = '';
         gameState.letterGrid[row].forEach(cell => guess += cell.value);
+
+        setLoading(true);
         checkWordValidity(guess).then((valid) => {
           if (valid) {
             checkWord(guess).then(response => {
@@ -126,7 +143,7 @@ function App() {
           } else {
             onInvalidWord();
           }
-        })
+        }).finally(() => setLoading(false));
       }
     } else {
       if (col < NUM_LETTERS) {
@@ -154,7 +171,7 @@ function App() {
   return <div style={style}>
     <TopBar />
     <ToastContainer />
-    <MainView letterGrid={gameState.letterGrid} onKeyboardClick={onKeyboardClick} />
+    <MainView loading={loading} letterGrid={gameState.letterGrid} onKeyboardClick={onKeyboardClick} />
   </div>
 }
 

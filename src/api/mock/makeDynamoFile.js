@@ -5,14 +5,17 @@ const allowedGuessesList = JSON.parse(
 );
 
 let dynamoObject = { AllowedGuesses: [] }
+let i = 1;
 allowedGuessesList.forEach(word => {
     dynamoObject.AllowedGuesses.push({
         PutRequest: {
             Item: {
-                word: word
+                word: word,
+                id: i,
             }
         }
     });
+    i++;
 });
 
 fs.writeFileSync('./allowed-guesses-for-dynamo.json', JSON.stringify(dynamoObject));
