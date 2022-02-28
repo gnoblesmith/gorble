@@ -10,6 +10,7 @@ const MainView = (props) => {
         flexDirection: "column",
         flexWrap: "nowrap",
         justifyContent: "space-between",
+        marginTop: "20px",
     };
 
     const tableContainerStyle = {

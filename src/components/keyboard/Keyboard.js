@@ -5,12 +5,15 @@ const Keyboard = (props) => {
     const { onClick } = props;
 
     const style = {
-        display: "flex",
-        flexDirection: "column",
-        height: "200px",
-        width: "25%",
-        margin: "0 auto",
-        justifyContent: "center",
+        // display: "flex",
+        // flexDirection: "column",
+        // height: "200px",
+        // width: "35%",
+        margin: "14px auto",
+        // justifyContent: "center",
+        //marginLeft: "14px",
+        //marginRight: "14px",
+        maxWidth: "500px",
     };
 
     return <div style={style}>

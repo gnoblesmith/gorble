@@ -3,7 +3,7 @@ const ButtonRow = (props) => {
 
     const style = {
         display: "flex",
-        margin: "5px",
+        margin: "2px",
         flexGrow: 1,
         height: "40px",
         backgroundColor: "darkgrey",
