@@ -8,6 +8,7 @@ import { GuessResult } from './reference/enums';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addWin, addLoss, getMetagameData } from './metagame-state/metagame-state';
+import StatsModal from './components/stats-modal/StatsModal';
 
 function App() {
   const style = {
@@ -20,6 +21,7 @@ function App() {
 
   const [gameState, setGameState] = useState(() => {
     return {
+      date: new Date().toDateString(),
       activeRow: 0,
       activeCol: 0,
       letterGrid: new Array(NUM_GUESSES).fill({status: GuessResult.NO, value: ''}).map(() => new Array(NUM_LETTERS).fill({status: GuessResult.NO, value: ''}))
@@ -29,6 +31,7 @@ function App() {
   const [metagameData, setMetagameData] = useState();
 
   const [loading, setLoading] = useState(false);
+  const [statModalShowing, setStatModalShowing] = useState(false);
 
   const setGameStateWithSave = (updateFunc) => {
     setGameState((prev) => {
@@ -40,11 +43,19 @@ function App() {
 
   useEffect(() => {
     const savedState = localStorage.getItem(LOCAL_STORAGE_STATE_KEY);
-    if (savedState) {
+    if (savedState && savedState.date === new Date().toDateString()) {
       setGameState(JSON.parse(savedState));
     }
     setMetagameData(getMetagameData());
   }, []);
+
+  const onStatsButtonClicked = () => {
+    setStatModalShowing(true);
+  }
+
+  const onCloseStatsModal = () => {
+    setStatModalShowing(false);
+  }
 
   const onWin = () => {
     toast("nice job!", {
@@ -58,7 +69,7 @@ function App() {
     toast("you lose :(", {
       toastId: 'lose-toast'
     });
-    addLoss();
+    addLoss(gameState);
     setMetagameData(getMetagameData());
   }
 
@@ -169,8 +180,9 @@ function App() {
   }
 
   return <div style={style}>
-    <TopBar />
+    <TopBar onStatsButtonClicked={onStatsButtonClicked} />
     <ToastContainer />
+    { statModalShowing ? <StatsModal metagameData={metagameData} onClose={onCloseStatsModal} /> : null }
     <MainView loading={loading} letterGrid={gameState.letterGrid} onKeyboardClick={onKeyboardClick} />
   </div>
 }

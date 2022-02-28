@@ -1,6 +1,8 @@
-import StatsButton from './stats/StatsButton';
+import StatsButton from './StatsButton/StatsButton';
 
-const TopBar = () => {
+const TopBar = (props) => {
+    const { onStatsButtonClicked } = props;
+
     const style = {
         display: "flex",
         flex: "0 1 auto",
@@ -17,7 +19,7 @@ const TopBar = () => {
     return <div style={style}>
         <div style={{width: '80px'}}></div>
         Gorble
-        <StatsButton />
+        <StatsButton onClick={onStatsButtonClicked} />
     </div>
 }
 
