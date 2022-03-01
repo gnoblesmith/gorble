@@ -26,7 +26,6 @@ const StatsModal = (props) => {
         fontWeight: 900
     };
 
-    console.log(metagameData.history);
     return <div style={style}>
         <button style={buttonStyle} onClick={onClose}>X</button>
         Games Played: {Object.keys(metagameData.history).length} <br />

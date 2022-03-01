@@ -46,6 +46,7 @@ function App() {
     const savedState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     if (savedState && savedState.date === new Date().toDateString()) {
       setGameState(savedState);
+      updateKeyboardStatuses(savedState.letterGrid);
     }
     setMetagameData(getMetagameData());
   }, []);
@@ -84,8 +85,8 @@ function App() {
     return !!metagameData.history[new Date().toDateString()];
   }
 
-  const updateKeyboardStatuses = () => {
-    const allGuessResults = gameState.letterGrid.flat();
+  const updateKeyboardStatuses = (letterGrid) => {
+    const allGuessResults = letterGrid.flat();
     allGuessResults.forEach(guessResult => {
         if (guessResult.value) {
             if (!keyboardLetterStatuses[guessResult.value]) {

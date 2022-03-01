@@ -14,9 +14,7 @@ const Keyboard = (props) => {
         else if (letterStatuses[letter] === "no") return "black";
         else if (letterStatuses[letter] === "maybe") return "darkgoldenrod";
         else if (letterStatuses[letter] === "yes") return "darkolivegreen"
-    }
-
-    console.log(letterStatuses);
+    };
 
     return <div style={style}>
         <KeyboardButtonRow>
