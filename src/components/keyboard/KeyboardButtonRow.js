@@ -5,6 +5,7 @@ const KeyboardButtonRow = (props) => {
         display: "flex",
         flexDirection: "row",
         alignItem: "stretch",
+        justifyContent: "space-around"
     };
 
     return <div style={style}>

@@ -5,14 +5,7 @@ const Keyboard = (props) => {
     const { onClick } = props;
 
     const style = {
-        // display: "flex",
-        // flexDirection: "column",
-        // height: "200px",
-        // width: "35%",
         margin: "14px auto",
-        // justifyContent: "center",
-        //marginLeft: "14px",
-        //marginRight: "14px",
         maxWidth: "500px",
     };
 
@@ -37,7 +30,6 @@ const Keyboard = (props) => {
             <KeyboardButton onClick={onClick} letter={'G'} />
             <KeyboardButton onClick={onClick} letter={'H'} />
             <KeyboardButton onClick={onClick} letter={'J'} />
-            <KeyboardButton onClick={onClick} letter={'J'} />
             <KeyboardButton onClick={onClick} letter={'K'} />
             <KeyboardButton onClick={onClick} letter={'L'} />
         </KeyboardButtonRow>
@@ -50,7 +42,7 @@ const Keyboard = (props) => {
             <KeyboardButton onClick={onClick} letter={'B'} />
             <KeyboardButton onClick={onClick} letter={'N'} />
             <KeyboardButton onClick={onClick} letter={'M'} />
-            <KeyboardButton onClick={() => onClick('backspace')} letter={'BACK'} />
+            <KeyboardButton onClick={() => onClick('backspace')} letter={'<'} />
         </KeyboardButtonRow>
     </div>
 }
