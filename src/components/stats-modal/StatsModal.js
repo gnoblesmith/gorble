@@ -6,7 +6,6 @@ const StatsModal = (props) => {
         position: "fixed",
         width: "80%",
         height: "50%",
-        backgroundColor: "black",
         border: "1px solid grey",
         borderRadius: "5px",
 

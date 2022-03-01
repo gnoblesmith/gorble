@@ -3,7 +3,7 @@ import Keyboard from '../keyboard/Keyboard';
 import LoadingIndicator from './LoadingIndicator';
 
 const MainView = (props) => {
-    const { loading, letterGrid, onKeyboardClick } = props;
+    const { loading, letterGrid, onKeyboardClick, keyboardLetterStatuses } = props;
 
     const mainViewStyle = {
         display: "flex",
@@ -26,7 +26,7 @@ const MainView = (props) => {
                 })
             }
         </div>
-        <Keyboard onClick={onKeyboardClick} />
+        <Keyboard letterStatuses={keyboardLetterStatuses} onClick={onKeyboardClick} />
     </div>
 }
 

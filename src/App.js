@@ -32,6 +32,7 @@ function App() {
 
   const [loading, setLoading] = useState(false);
   const [statModalShowing, setStatModalShowing] = useState(false);
+  const [keyboardLetterStatuses, setKeyboardLetterStatuses] = useState({});
 
   const setGameStateWithSave = (updateFunc) => {
     setGameState((prev) => {
@@ -42,9 +43,9 @@ function App() {
   }
 
   useEffect(() => {
-    const savedState = localStorage.getItem(LOCAL_STORAGE_STATE_KEY);
+    const savedState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     if (savedState && savedState.date === new Date().toDateString()) {
-      setGameState(JSON.parse(savedState));
+      setGameState(savedState);
     }
     setMetagameData(getMetagameData());
   }, []);
@@ -82,6 +83,61 @@ function App() {
   const alreadyPlayedTodaysGame = () => {
     return !!metagameData.history[new Date().toDateString()];
   }
+
+  const updateKeyboardStatuses = () => {
+    const allGuessResults = gameState.letterGrid.flat();
+    allGuessResults.forEach(guessResult => {
+        if (guessResult.value) {
+            if (!keyboardLetterStatuses[guessResult.value]) {
+              // this code sucks. make it better gabe - todo
+              setKeyboardLetterStatuses((prev) => {
+                    return  prev[guessResult.value] === "yes" ? prev :
+                            prev[guessResult.value] === "maybe" && guessResult.status === "yes" ? {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            } :
+                            prev[guessResult.value] === "no" && (guessResult.status === "yes" || guessResult.status === "maybe") ? {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            } : {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            };
+                });
+            } else if (guessResult.status === "yes") {
+              setKeyboardLetterStatuses((prev) => {
+                    return  prev[guessResult.value] === "yes" ? prev :
+                            prev[guessResult.value] === "maybe" && guessResult.status === "yes" ? {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            } :
+                            prev[guessResult.value] === "no" && (guessResult.status === "yes" || guessResult.status === "maybe") ? {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            } : {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            };
+                });
+            } else if (keyboardLetterStatuses[guessResult.value] !== "yes" && guessResult.status === "maybe") {
+              setKeyboardLetterStatuses((prev) => {
+                    return  prev[guessResult.value] === "yes" ? prev :
+                            prev[guessResult.value] === "maybe" && guessResult.status === "yes" ? {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            } :
+                            prev[guessResult.value] === "no" && (guessResult.status === "yes" || guessResult.status === "maybe") ? {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            } : {
+                              ...prev,
+                              [guessResult.value]: guessResult.status
+                            };
+                });
+            }
+        }
+    });
+  };
 
   const onKeyboardClick = (key) => {
     if (alreadyPlayedTodaysGame()) return;
@@ -131,6 +187,8 @@ function App() {
                 } else if (row === NUM_GUESSES-1) {
                   onLose();
                 }
+
+                updateKeyboardStatuses(copy);
 
                 return {
                   ...prev,
@@ -183,7 +241,12 @@ function App() {
     <TopBar onStatsButtonClicked={onStatsButtonClicked} />
     <ToastContainer />
     { statModalShowing ? <StatsModal metagameData={metagameData} onClose={onCloseStatsModal} /> : null }
-    <MainView loading={loading} letterGrid={gameState.letterGrid} onKeyboardClick={onKeyboardClick} />
+    <MainView
+      loading={loading}
+      letterGrid={gameState.letterGrid}
+      keyboardLetterStatuses={keyboardLetterStatuses}
+      onKeyboardClick={onKeyboardClick} 
+    />
   </div>
 }
 

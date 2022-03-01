@@ -2,46 +2,55 @@ import KeyboardButtonRow from './KeyboardButtonRow';
 import KeyboardButton from './KeyboardButton';
 
 const Keyboard = (props) => {
-    const { onClick } = props;
+    const { onClick, letterStatuses } = props;
 
     const style = {
         margin: "14px auto",
         maxWidth: "500px",
     };
 
+    const getStyle = (letter) => {
+        if (!letterStatuses[letter]) return "darkgrey";
+        else if (letterStatuses[letter] === "no") return "black";
+        else if (letterStatuses[letter] === "maybe") return "darkgoldenrod";
+        else if (letterStatuses[letter] === "yes") return "darkolivegreen"
+    }
+
+    console.log(letterStatuses);
+
     return <div style={style}>
         <KeyboardButtonRow>
-            <KeyboardButton onClick={onClick} letter={'Q'} />
-            <KeyboardButton onClick={onClick} letter={'W'} />
-            <KeyboardButton onClick={onClick} letter={'E'} />
-            <KeyboardButton onClick={onClick} letter={'R'} />
-            <KeyboardButton onClick={onClick} letter={'T'} />
-            <KeyboardButton onClick={onClick} letter={'Y'} />
-            <KeyboardButton onClick={onClick} letter={'U'} />
-            <KeyboardButton onClick={onClick} letter={'I'} />
-            <KeyboardButton onClick={onClick} letter={'O'} />
-            <KeyboardButton onClick={onClick} letter={'P'} />
+            <KeyboardButton backgroundColor={getStyle('Q')} onClick={onClick} letter={'Q'} />
+            <KeyboardButton backgroundColor={getStyle('W')} onClick={onClick} letter={'W'} />
+            <KeyboardButton backgroundColor={getStyle('E')} onClick={onClick} letter={'E'} />
+            <KeyboardButton backgroundColor={getStyle('R')} onClick={onClick} letter={'R'} />
+            <KeyboardButton backgroundColor={getStyle('T')} onClick={onClick} letter={'T'} />
+            <KeyboardButton backgroundColor={getStyle('Y')} onClick={onClick} letter={'Y'} />
+            <KeyboardButton backgroundColor={getStyle('U')} onClick={onClick} letter={'U'} />
+            <KeyboardButton backgroundColor={getStyle('I')} onClick={onClick} letter={'I'} />
+            <KeyboardButton backgroundColor={getStyle('O')} onClick={onClick} letter={'O'} />
+            <KeyboardButton backgroundColor={getStyle('P')} onClick={onClick} letter={'P'} />
         </KeyboardButtonRow>
         <KeyboardButtonRow>
-            <KeyboardButton onClick={onClick} letter={'A'} />
-            <KeyboardButton onClick={onClick} letter={'S'} />
-            <KeyboardButton onClick={onClick} letter={'D'} />
-            <KeyboardButton onClick={onClick} letter={'F'} />
-            <KeyboardButton onClick={onClick} letter={'G'} />
-            <KeyboardButton onClick={onClick} letter={'H'} />
-            <KeyboardButton onClick={onClick} letter={'J'} />
-            <KeyboardButton onClick={onClick} letter={'K'} />
-            <KeyboardButton onClick={onClick} letter={'L'} />
+            <KeyboardButton backgroundColor={getStyle('A')} onClick={onClick} letter={'A'} />
+            <KeyboardButton backgroundColor={getStyle('S')} onClick={onClick} letter={'S'} />
+            <KeyboardButton backgroundColor={getStyle('D')} onClick={onClick} letter={'D'} />
+            <KeyboardButton backgroundColor={getStyle('F')} onClick={onClick} letter={'F'} />
+            <KeyboardButton backgroundColor={getStyle('G')} onClick={onClick} letter={'G'} />
+            <KeyboardButton backgroundColor={getStyle('H')} onClick={onClick} letter={'H'} />
+            <KeyboardButton backgroundColor={getStyle('J')} onClick={onClick} letter={'J'} />
+            <KeyboardButton backgroundColor={getStyle('K')} onClick={onClick} letter={'K'} />
+            <KeyboardButton backgroundColor={getStyle('L')} onClick={onClick} letter={'L'} />
         </KeyboardButtonRow>
         <KeyboardButtonRow>
             <KeyboardButton onClick={() => onClick('enter')} letter={'ENTER'} />
-            <KeyboardButton onClick={onClick} letter={'Z'} />
-            <KeyboardButton onClick={onClick} letter={'X'} />
-            <KeyboardButton onClick={onClick} letter={'C'} />
-            <KeyboardButton onClick={onClick} letter={'V'} />
-            <KeyboardButton onClick={onClick} letter={'B'} />
-            <KeyboardButton onClick={onClick} letter={'N'} />
-            <KeyboardButton onClick={onClick} letter={'M'} />
+            <KeyboardButton backgroundColor={getStyle('Z')} onClick={onClick} letter={'Z'} />
+            <KeyboardButton backgroundColor={getStyle('X')} onClick={onClick} letter={'X'} />
+            <KeyboardButton backgroundColor={getStyle('C')} onClick={onClick} letter={'C'} />
+            <KeyboardButton backgroundColor={getStyle('V')} onClick={onClick} letter={'V'} />
+            <KeyboardButton backgroundColor={getStyle('B')} onClick={onClick} letter={'B'} />
+            <KeyboardButton backgroundColor={getStyle('N')} onClick={onClick} letter={'N'} />
+            <KeyboardButton backgroundColor={getStyle('M')} onClick={onClick} letter={'M'} />
             <KeyboardButton onClick={() => onClick('backspace')} letter={'<'} />
         </KeyboardButtonRow>
     </div>
