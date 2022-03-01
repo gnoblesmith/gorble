@@ -24,7 +24,7 @@ function App() {
       date: new Date().toDateString(),
       activeRow: 0,
       activeCol: 0,
-      letterGrid: new Array(NUM_GUESSES).fill({status: GuessResult.NO, value: ''}).map(() => new Array(NUM_LETTERS).fill({status: GuessResult.NO, value: ''}))
+      letterGrid: new Array(NUM_GUESSES).fill({status: '', value: ''}).map(() => new Array(NUM_LETTERS).fill({status: '', value: ''}))
     }
   });
 
@@ -87,8 +87,9 @@ function App() {
 
   const updateKeyboardStatuses = (letterGrid) => {
     const allGuessResults = letterGrid.flat();
+    
     allGuessResults.forEach(guessResult => {
-        if (guessResult.value) {
+        if (guessResult.value && guessResult.status) {
             if (!keyboardLetterStatuses[guessResult.value]) {
               // this code sucks. make it better gabe - todo
               setKeyboardLetterStatuses((prev) => {

@@ -11,7 +11,7 @@ export const getMetagameData = () => {
         localStorage.setItem(LOCAL_STORAGE_METAGAME_DATA_KEY, JSON.stringify(initMetagameData));
         return initMetagameData;
     }
-
+    
     return JSON.parse(loc);
 }
 

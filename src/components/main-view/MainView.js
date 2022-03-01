@@ -11,13 +11,19 @@ const MainView = (props) => {
         flexWrap: "nowrap",
         justifyContent: "space-between",
         marginTop: "20px",
+        outline: "none",
     };
 
     const tableContainerStyle = {
         margin: "0 auto",
     };
 
-    return <div style={mainViewStyle}>
+    const onKeyDown = (e) => {
+        console.log("heelllo");
+        onKeyboardClick(e.key.toLowerCase());
+    };
+
+    return <div style={mainViewStyle} onKeyDown={onKeyDown} tabIndex="0">
         <LoadingIndicator loading={loading} />
         <div style={tableContainerStyle}>
             {
