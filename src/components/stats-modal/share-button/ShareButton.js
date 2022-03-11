@@ -36,7 +36,6 @@ const ShareButton = (props) => {
         for (let i = 0; i < numberOfLines; i++) {
             const line = todaysData.letterGrid[i];
 
-            console.log(line);
             line.forEach((cell) => {
                 if (cell.status === 'yes') {
                     clipboardContent = `${clipboardContent}${greenSquare}`;
@@ -53,7 +52,6 @@ const ShareButton = (props) => {
     }
 
     const onClick = () => {
-        console.log("onShareClick");
         navigator.clipboard.writeText(makeClipboardContent());
         onShareClick();
     }

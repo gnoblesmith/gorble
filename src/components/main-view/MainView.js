@@ -19,7 +19,6 @@ const MainView = (props) => {
     };
 
     const onKeyDown = (e) => {
-        console.log("heelllo");
         onKeyboardClick(e.key.toLowerCase());
     };
 
