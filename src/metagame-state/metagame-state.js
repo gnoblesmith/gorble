@@ -11,14 +11,17 @@ export const getMetagameData = () => {
         localStorage.setItem(LOCAL_STORAGE_METAGAME_DATA_KEY, JSON.stringify(initMetagameData));
         return initMetagameData;
     }
-    
+
     return JSON.parse(loc);
 }
 
 export const addWin = (endGameState) => {
     let data = getMetagameData();
 
-    data.history[endGameState.date] = endGameState;
+    data.history[endGameState.date] = {
+        ...endGameState,
+        won: true
+    }
 
     localStorage.setItem(LOCAL_STORAGE_METAGAME_DATA_KEY, JSON.stringify(data));
 }
@@ -32,8 +35,10 @@ export const addLoss = (endGameState) => {
 }
 
 export const getGamesWon = (metagameData) => {
-    const wins = Object.entries(metagameData.history).filter(([key, value]) => {
-        return value.activeRow < 6
+    const games = Object.values(metagameData.history);
+
+    const wins = games.filter(game => {
+        return game.won
     });
 
     return wins.length;

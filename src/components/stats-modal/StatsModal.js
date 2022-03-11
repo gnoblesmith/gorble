@@ -1,7 +1,8 @@
 import { getGamesWon } from "./../../metagame-state/metagame-state";
+import ShareButton from './share-button/ShareButton';
 
 const StatsModal = (props) => {
-    const { metagameData, onClose } = props;
+    const { metagameData, onClose, onShareClick } = props;
     const style = {
         position: "fixed",
         width: "80%",
@@ -30,6 +31,7 @@ const StatsModal = (props) => {
         <button style={buttonStyle} onClick={onClose}>X</button>
         Games Played: {Object.keys(metagameData.history).length} <br />
         Games Won: { getGamesWon(metagameData)}
+        <ShareButton onShareClick={onShareClick} metagameData={metagameData} />
     </div>
 }
 

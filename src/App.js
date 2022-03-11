@@ -63,16 +63,31 @@ function App() {
     toast("nice job!", {
       toastId: 'win-toast'
     });
-    addWin(gameState);
-    setMetagameData(getMetagameData());
+    setStatModalShowing(true);
+
+    setTimeout(() => {
+      addWin(gameState);
+      setMetagameData(getMetagameData());
+    }, 500);
+
   }
 
   const onLose = () => {
     toast("you lose :(", {
       toastId: 'lose-toast'
     });
-    addLoss(gameState);
-    setMetagameData(getMetagameData());
+    setStatModalShowing(true);
+
+    setTimeout(() => {
+      addLoss(gameState);
+      setMetagameData(getMetagameData());
+    }, 500);
+  }
+
+  const onShareClick = () => {
+    toast("results copied to clipboard", {
+      toastId: 'share-toast'
+    });
   }
 
   const onInvalidWord = () => {
@@ -176,6 +191,19 @@ function App() {
         checkWordValidity(guess).then((valid) => {
           if (valid) {
             checkWord(guess).then(response => {
+              setGameStateWithSave((prev) => {
+                return {
+                  ...prev,
+                  activeCol: 0,
+                }
+              });
+              setGameStateWithSave((prev) => {
+                return {
+                  ...prev,
+                  activeRow: prev.activeRow+1,
+                }
+              });
+
               setGameStateWithSave(prev => {
                 let copy = prev.letterGrid;
                 copy[row] = copy[row].map((row, index) => {
@@ -184,6 +212,7 @@ function App() {
                     status: response[index]
                   };
                 });
+
                 if (copy[row].filter(cell => cell.status === GuessResult.YES).length === NUM_LETTERS) {
                   onWin();
                 } else if (row === NUM_GUESSES-1) {
@@ -197,19 +226,6 @@ function App() {
                   letterGrid: copy
                 };
               })
-
-              setGameStateWithSave((prev) => {
-                return {
-                  ...prev,
-                  activeCol: 0,
-                }
-              });
-              setGameStateWithSave((prev) => {
-                return {
-                  ...prev,
-                  activeRow: prev.activeRow+1,
-                }
-              });
             });
           } else {
             onInvalidWord();
@@ -242,7 +258,7 @@ function App() {
   return <div style={style}>
     <TopBar onStatsButtonClicked={onStatsButtonClicked} />
     <ToastContainer />
-    { statModalShowing ? <StatsModal metagameData={metagameData} onClose={onCloseStatsModal} /> : null }
+    { statModalShowing ? <StatsModal metagameData={metagameData} onClose={onCloseStatsModal} onShareClick={onShareClick} /> : null }
     <MainView
       loading={loading}
       letterGrid={gameState.letterGrid}
