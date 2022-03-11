@@ -27,11 +27,13 @@ const StatsModal = (props) => {
         fontWeight: 900
     };
 
+    const todaysIsDone = metagameData.history[(new Date().toDateString())];
+
     return <div style={style}>
         <button style={buttonStyle} onClick={onClose}>X</button>
         Games Played: {Object.keys(metagameData.history).length} <br />
         Games Won: { getGamesWon(metagameData)}
-        <ShareButton onShareClick={onShareClick} metagameData={metagameData} />
+        { todaysIsDone ? <ShareButton onShareClick={onShareClick} metagameData={metagameData} /> : null }
     </div>
 }
 
