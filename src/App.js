@@ -2,7 +2,7 @@ import './App.css';
 import TopBar from './components/top-bar/TopBar';
 import MainView from './components/main-view/MainView';
 import { useEffect, useState } from 'react';
-import { checkWordValidity, checkWord } from './api/api';
+import { checkWordValidity, checkWord, getWord } from './api/api';
 import { NUM_GUESSES, NUM_LETTERS, LOCAL_STORAGE_STATE_KEY } from './reference/constants';
 import { GuessResult } from './reference/enums';
 import { ToastContainer, toast } from 'react-toastify';
@@ -73,15 +73,19 @@ function App() {
   }
 
   const onLose = () => {
-    toast("you lose :(", {
-      toastId: 'lose-toast'
-    });
-    setStatModalShowing(true);
+    getWord().then((theAnswer) => {
+      console.log(theAnswer);
+      toast(`the answer was ${theAnswer.toUpperCase()}`, {
+        toastId: 'lose-toast'
+      });
+      setStatModalShowing(true);
+  
+      setTimeout(() => {
+        addLoss(gameState);
+        setMetagameData(getMetagameData());
+      }, 500);
 
-    setTimeout(() => {
-      addLoss(gameState);
-      setMetagameData(getMetagameData());
-    }, 500);
+    });
   }
 
   const onShareClick = () => {

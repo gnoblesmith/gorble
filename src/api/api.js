@@ -22,3 +22,14 @@ export const checkWord = (guess) => {
         return res.data;
     });
 }
+
+export const getWord = () => {
+    return axios.get(`${apiUrl}/word`, {
+        headers: {
+            'custom-header-to-force-preflight': 'lol'
+        }
+    })
+    .then(res => {
+        return res.data.answer;
+    });
+}
